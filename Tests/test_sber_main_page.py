@@ -10,9 +10,9 @@ def test_open_sber_main_page():
     driver.get("http://www.sberbank.ru/")
     driver.maximize_window()
 
-    # Геометка Москва
-    driver.find_element(By.XPATH, "//a[text()='Москва']")
-    print("Москва")
+    # Геометка
+    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    print("Геометка")
     # Переключение языка "ENG"
     driver.find_element(By.XPATH, "(//a[text()='ENG'])[1]")
     print("ENG")
