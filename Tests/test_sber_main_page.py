@@ -16,21 +16,27 @@ def test_open_sber_main_page():
     # Геометка
     driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
     print("Геометка")
-    # Переключение языка "ENG"
-    driver.find_element(By.XPATH, "(//a[text()='ENG'])[1]")
-    print("ENG")
-    # Меню "поиск-лупа"
-    driver.find_element(By.XPATH, "//a[@aria-label='Открыть поиск по сайту']")
-    print("поиск-лупа")
-    # Кнопка Сбербанк-онлайн
-    sberonline_button = driver.find_element(By.XPATH, "//a[text()='СберБанк Онлайн']")
-    sberonline_button.click()
-    print("СберБанк Онлайн")
-    time.sleep(3)
 
-    # Переключение между вкладками
-    driver.switch_to.window(driver.window_handles[0])
-    print("Главная страница Сбера")
+    # Подсчет элементов на странице у курсов валют
+    exchange_rates_count = driver.find_elements(By.XPATH, "//a[text()='Курсы валют']")
+    print("count exchange =", len(exchange_rates_count))
+
+
+    # # Переключение языка "ENG"
+    # driver.find_element(By.XPATH, "(//a[text()='ENG'])[1]")
+    # print("ENG")
+    # # Меню "поиск-лупа"
+    # driver.find_element(By.XPATH, "//a[@aria-label='Открыть поиск по сайту']")
+    # print("поиск-лупа")
+    # # Кнопка Сбербанк-онлайн
+    # sberonline_button = driver.find_element(By.XPATH, "//a[text()='СберБанк Онлайн']")
+    # sberonline_button.click()
+    # print("СберБанк Онлайн")
+    # time.sleep(3)
+    #
+    # # Переключение между вкладками
+    # driver.switch_to.window(driver.window_handles[0])
+    # print("Главная страница Сбера")
 
     # # Наведение курсора мыши на СберБанк Онлайн
     # sberonline_button = driver.find_element(By.XPATH, "//a[text()='СберБанк Онлайн']")
