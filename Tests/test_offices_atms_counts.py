@@ -14,9 +14,9 @@ def test_offices_atms_counts():
     print("Геометка")
     # Подсчет элементов на странице у офисов
     offices_count = driver.find_elements(By.XPATH, "//a[text()='Офисы']")
-    print("count offices =", len(offices_count))
+    print("Сount Offices =", len(offices_count))
     time.sleep(3)
     # Подсчет элементов на странице у банкоматов
     atms_count = driver.find_elements(By.XPATH, "//a[text()='Банкоматы']")
-    print("count atms =", len(atms_count))
+    print("Count ATMs =", len(atms_count))
     time.sleep(3)
