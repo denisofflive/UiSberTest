@@ -5,7 +5,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
-
+# Тест - скролл по странице
 def test_scroll_page():
     driver = webdriver.Chrome()
     webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
@@ -29,6 +29,8 @@ def test_scroll_page():
     driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.HOME)
     time.sleep(3)
 
+
+# Тест - переключение между вкладками
 def test_switch_page():
     driver = webdriver.Chrome()
     webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
