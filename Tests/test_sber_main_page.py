@@ -151,3 +151,31 @@ def test_color_links():
     assert color_before_perform != color_after_perform
     print("Верно")
     time.sleep(3)
+
+
+def test_moving_menu_links_negative():
+    try:
+        driver = webdriver.Chrome()
+        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
+        driver.implicitly_wait(10)
+        driver.get("http://www.sberbank.ru/")
+        driver.maximize_window()
+
+        # Геометка
+        driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+        print("Геометка")
+        # Нажать на вкладку Курсы валют
+        exchange_rates_button = driver.find_element(By.XPATH, "(//a[text()='Курсы валют'])[1]")
+        exchange_rates_button.click()
+        print("Нажать на вкладку Курсы валют")
+        # Переключение между вкладками
+        driver.switch_to.window(driver.window_handles[1])
+        print("Переключение между вкладками")
+        time.sleep(3)
+        # Проверка страницы Курсы валют
+        first_page_title = driver.find_element(By.XPATH, "(//h1)[1]")
+        assert first_page_title.text == "Курсы валют1"
+        print("Курсы валют")
+        time.sleep(3)
+    finally:
+        driver.quit()
