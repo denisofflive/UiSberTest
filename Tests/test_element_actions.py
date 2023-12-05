@@ -16,13 +16,11 @@ def test_change_language_page():
     context_geo_button.click()
     print("Геометка")
     time.sleep(3)
-
     # Смена языка
     eng_language = driver.find_element(By.XPATH, locators.ENG_LANGUAGE)
     eng_language.click()
     print("Eng language")
     time.sleep(3)
-
 
 def test_search():
     driver = webdriver.Chrome()
@@ -72,7 +70,6 @@ def test_search():
     reset_button = driver.find_element(By.XPATH, locators.RESET_BUTTON)
     reset_button.click()
     print("Нажали на кнопку закрыть поиск по сайту")
-
     time.sleep(5)
 
 def test_actions_chains():
@@ -82,7 +79,6 @@ def test_actions_chains():
     driver.get("https://www.sberbank.ru")
     driver.maximize_window()
     time.sleep(3)
-
 
     # Чтение геометки
     context_geo_button = driver.find_element(By.XPATH, locators.CONTEXT_GEO_BUTTON)
