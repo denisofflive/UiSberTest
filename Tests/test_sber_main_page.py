@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from pages import locators as locators
+from Steps import support_steps as support_steps
 
 
 def test_open_sber_main_page():
@@ -71,7 +73,7 @@ def test_moving_menu_links():
     driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
     print("Геометка")
     # Нажать на вкладку Курсы валют
-    exchange_rates_button = driver.find_element(By.XPATH, "(//a[text()='Курсы валют'])[1]")
+    exchange_rates_button = driver.find_element(By.XPATH, locators.EXCHANGE_RATES_LINK)
     exchange_rates_button.click()
     print("Нажать на вкладку Курсы валют")
     # Переключение между вкладками
@@ -79,7 +81,7 @@ def test_moving_menu_links():
     print("Переключение между вкладками")
     time.sleep(3)
     # Проверка страницы Курсы валют
-    first_page_title = driver.find_element(By.XPATH, "(//h1)[1]")
+    first_page_title = driver.find_element(By.XPATH, locators.FIRST_PAGE_TITLE)
     assert first_page_title.text == "Курсы валют"
     print("Курсы валют")
     time.sleep(3)
@@ -179,3 +181,20 @@ def test_moving_menu_links_negative():
         time.sleep(3)
     finally:
         driver.quit()
+
+def test_check_incorrect_geoposition():
+    driver = webdriver.Chrome()
+    webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
+    driver.implicitly_wait(10)
+    driver.get("http://www.sberbank.ru/")
+    driver.maximize_window()
+
+    # Геометка
+    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    print("Геометка")
+    geo_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
+    print("geo_button_text", geo_button.text)
+    geo_button.click()
+    region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
+    region_name_field.send_keys(support_steps.generate_random_letter_strings(10))
+    time.sleep(3)
