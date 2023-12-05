@@ -1,9 +1,8 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from pages import locators as locators
 
 # Тест - скролл по странице
 def test_scroll_page():
@@ -14,7 +13,7 @@ def test_scroll_page():
     driver.maximize_window()
 
     # Геометка
-    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     print("Геометка")
     # Скролл на один экран вниз
     driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.PAGE_DOWN)
@@ -39,11 +38,11 @@ def test_switch_page():
     driver.maximize_window()
 
     # Геометка
-    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     print("Геометка")
 
     # Кнопка Сбербанк-онлайн
-    sberonline_button = driver.find_element(By.XPATH, "//a[text()='СберБанк Онлайн']")
+    sberonline_button = driver.find_element(By.XPATH, locators.SBERBANK_ONLINE_BUTTON)
     sberonline_button.click()
     print("СберБанк Онлайн")
     time.sleep(3)
@@ -53,7 +52,7 @@ def test_switch_page():
     print("Главная страница Сбера")
     time.sleep(3)
 
-    exchange_rates_button = driver.find_element(By.XPATH, "(//a[text()='Курсы валют'])[1]")
+    exchange_rates_button = driver.find_element(By.XPATH, locators.EXCHANGE_RATES_LINK)
     exchange_rates_button.click()
     print("Курсы валют")
     time.sleep(3)

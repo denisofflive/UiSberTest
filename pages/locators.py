@@ -32,5 +32,21 @@ ATMS_BUTTON = "(//a[text()='Банкоматы'])[2]"
 ATMS_BUTTON_PAGE_TITLE = "//span[text()='Офисы и банкоматы']"
 # Заголовок Правила безопасности
 SECURITY_REGULATIONS = "//h4[text()='Правила безопасности']"
+# Чтение геометки
+CONTEXT_GEO_BUTTON = "(//button[@type='submit'])[1]"
+# Английский язык
+ENG_LANGUAGE = "(//a[text()='ENG'])[1]"
+# Кнопка Поиск по сайту
+SEARCH_BUTTON = "//a[@aria-label='Открыть поиск по сайту']"
+# Поле поиска
+SEARCH_FIELD = "//input[@type='search']"
+# Кнопка подтверждения поиска
+BUTTON_SUBMIT = "//button[@class='kitt-header-search__submit']"
+# Кнопка поиска Что-нибудь поищем
+TEXT_SEARCH_FIELD = "//input[@placeholder='Что-нибудь поищем']"
+# Кнопка подтверждения Найти
+TEXT_BUTTON_SUBMIT = "//input[@value='Найти']"
+# Кнопка сброса
+RESET_BUTTON = "//button[@type='reset']"
 
 # CTRL + SHIFT + U - менять регистр с большой или маленькой буквы
