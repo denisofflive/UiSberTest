@@ -69,7 +69,7 @@ def test_check_geoposition():
         geo_button.click()
         region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
         region_name_field.send_keys("Ростовская область")
-        region_name_button = driver.find_element(By.XPATH, locators.REGION_NAME_BUTTON)
+        region_name_button = driver.find_element(By.XPATH, locators.ROSTOV_REGION_FIELD)
         region_name_button.click()
         time.sleep(3)
         # Проверяем текст выбранный на странице (Ростовская область), что он там есть
@@ -171,7 +171,7 @@ def test_check_geoposition_negative():
         geo_button.click()
         region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
         region_name_field.send_keys("Ростовская область")
-        region_name_button = driver.find_element(By.XPATH, locators.REGION_NAME_BUTTON)
+        region_name_button = driver.find_element(By.XPATH, locators.ROSTOV_REGION_FIELD)
         region_name_button.click()
         time.sleep(3)
         # Проверяем текст выбранный на странице (Ростовская область), что он там есть

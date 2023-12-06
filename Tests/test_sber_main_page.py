@@ -16,11 +16,11 @@ def test_open_sber_main_page():
     driver.maximize_window()
 
     # Геометка
-    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     print("Геометка")
 
     # Подсчет элементов на странице у курсов валют
-    exchange_rates_count = driver.find_elements(By.XPATH, "//a[text()='Курсы валют']")
+    exchange_rates_count = driver.find_elements(By.XPATH, locators.EXCHANGE_RATES_LINK_ALL)
     print("count exchange =", len(exchange_rates_count))
 
 
@@ -70,7 +70,7 @@ def test_moving_menu_links():
     driver.maximize_window()
 
     # Геометка
-    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     print("Геометка")
     # Нажать на вкладку Курсы валют
     exchange_rates_button = driver.find_element(By.XPATH, locators.EXCHANGE_RATES_LINK)
@@ -95,18 +95,18 @@ def test_check_geoposition():
     driver.maximize_window()
 
     # Геометка
-    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     print("Геометка")
-    geo_button = driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    geo_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     print("geo_button_text", geo_button.text)
     geo_button.click()
-    region_name_field = driver.find_element(By.XPATH, "//input[@aria-label='Введите имя региона']")
+    region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
     region_name_field.send_keys("Ростовская область")
-    region_name_button = driver.find_element(By.XPATH, "//button[text()='Ростовская область']")
+    region_name_button = driver.find_element(By.XPATH, locators.ROSTOV_REGION_FIELD)
     region_name_button.click()
     time.sleep(3)
     # Проверяем текст выбранный на странице (Ростовская область), что он там есть
-    geo_button = driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    geo_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     assert geo_button.text == "Ростовская область"
     print("Ростовская область")
     time.sleep(3)
@@ -121,10 +121,10 @@ def test_count_links():
     driver.maximize_window()
 
     # Геометка
-    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     print("Геометка")
     # Подсчет элементов на странице у курсов валют (выше мы делали подсчёт - их было 4)
-    exchange_rates_count = driver.find_elements(By.XPATH, "//a[text()='Курсы валют']")
+    exchange_rates_count = driver.find_elements(By.XPATH, locators.EXCHANGE_RATES_LINK_ALL)
     assert len(exchange_rates_count) == 4
     print("Верно")
     time.sleep(3)
@@ -138,11 +138,11 @@ def test_color_links():
     driver.maximize_window()
 
     # Геометка
-    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     print("Геометка")
 
     # Находим вкладку СберБанк Онлайн
-    sberonline_button = driver.find_element(By.XPATH, "//a[text()='СберБанк Онлайн']")
+    sberonline_button = driver.find_element(By.XPATH, locators.SBERBANK_ONLINE_BUTTON)
     # Цвет до наведения курсора мыши на СберБанк Онлайн
     color_before_perform = sberonline_button.value_of_css_property('color')
     # Наведение курсора мыши на СберБанк Онлайн
@@ -164,10 +164,10 @@ def test_moving_menu_links_negative():
         driver.maximize_window()
 
         # Геометка
-        driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
         print("Геометка")
         # Нажать на вкладку Курсы валют
-        exchange_rates_button = driver.find_element(By.XPATH, "(//a[text()='Курсы валют'])[1]")
+        exchange_rates_button = driver.find_element(By.XPATH, locators.EXCHANGE_RATES_LINK)
         exchange_rates_button.click()
         print("Нажать на вкладку Курсы валют")
         # Переключение между вкладками
@@ -175,7 +175,7 @@ def test_moving_menu_links_negative():
         print("Переключение между вкладками")
         time.sleep(3)
         # Проверка страницы Курсы валют
-        first_page_title = driver.find_element(By.XPATH, "(//h1)[1]")
+        first_page_title = driver.find_element(By.XPATH, locators.FIRST_PAGE_TITLE)
         assert first_page_title.text == "Курсы валют1"
         print("Курсы валют")
         time.sleep(3)
@@ -190,7 +190,7 @@ def test_check_incorrect_geoposition():
     driver.maximize_window()
 
     # Геометка
-    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
+    driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     print("Геометка")
     geo_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
     print("geo_button_text", geo_button.text)

@@ -110,7 +110,7 @@ def test_check_search():
         region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
         region_name_field.send_keys("Ленинградская область")
         # Нажать на кнопку поиска
-        region_name_button_leningrad = driver.find_element(By.XPATH, locators.REGION_NAME_BUTTON_LENINGRAD)
+        region_name_button_leningrad = driver.find_element(By.XPATH, locators.LENINGRAD_REGION_FIELD)
         region_name_button_leningrad.click()
         time.sleep(3)
         # Проверяем текст выбранный на странице (Ростовская область), что он там есть

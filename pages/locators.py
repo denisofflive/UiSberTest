@@ -15,9 +15,9 @@ FIRST_PAGE_TITLE = "(//h1)[1]"
 # Поле выбора имени региона
 REGION_NAME_FIELD = "//input[@aria-label='Введите имя региона']"
 # Имя региона Ростовская область
-REGION_NAME_BUTTON = "//button[text()='Ростовская область']"
+ROSTOV_REGION_FIELD = "//button[text()='Ростовская область']"
 # Имя региона Ленинградская область
-REGION_NAME_BUTTON_LENINGRAD = "//button[text()='Ленинградская область']"
+LENINGRAD_REGION_FIELD = "//button[text()='Ленинградская область']"
 # Вкладка Офисы
 OFFICES_BUTTON = "(//a[text()='Офисы'])[2]"
 # Заголовок Офисы
