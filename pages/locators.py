@@ -8,6 +8,8 @@ SBERBANK_ONLINE_BUTTON = "//a[text()='СберБанк Онлайн']"
 SBERBANK_TITLE = "//a[@aria-label='Официальный сайт Сбербанка России']"
 # Заголовок Сбербанк Онлайн
 SBERONLINE_TITLE = "//h1[text()='СберБанк']"
+# Заголовок Лучшие предложения
+THE_BEST_OFFERS_TITLE = "(//h2)[1]"
 # Геопозиция
 GEOPOSITION_LINK = "//a[@title='Изменить регион']"
 # Первый заголовок страницы

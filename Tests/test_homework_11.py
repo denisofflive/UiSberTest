@@ -83,10 +83,10 @@ def test_moving_menu_sberonline_link():
         driver.switch_to.window(driver.window_handles[1])
         print("Переключение на вкладку СберБанк Онлайн")
         time.sleep(3)
-        # Проверка страницы СберБанк
-        sberonline_title = driver.find_element(By.XPATH, locators.SBERONLINE_TITLE)
-        assert sberonline_title.text == "СберБанк"
-        print("СберБанк")
+        # Проверка страницы СберБанкОнлайн
+        security_regulations = driver.find_element(By.XPATH, locators.SECURITY_REGULATIONS)
+        assert security_regulations.text == "Правила безопасности"
+        print("СберБанк Онлайн")
         time.sleep(5)
     finally:
         driver.quit()
@@ -237,34 +237,24 @@ def test_check_headers():
         driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
         print("Геометка")
 
-        # Главная страница СберБанк
-        sberbank_title = driver.find_element(By.XPATH, locators.SBERBANK_TITLE)
-        assert sberbank_title.text == ""
-        print("Главная страница Сбербанк")
-        time.sleep(3)
-
         # Нажать на вкладку СберБанк Онлайн
         sberonline_button = driver.find_element(By.XPATH, locators.SBERBANK_ONLINE_BUTTON)
         sberonline_button.click()
         print("Нажать на вкладку СберБанк Онлайн")
-        time.sleep(3)
+
         # Переключение между вкладками
         driver.switch_to.window(driver.window_handles[1])
-        print("Переключение на вкладку СберБанк Онлайн")
-        time.sleep(3)
-        # Проверка страницы СберБанк Онлайн (Правила безопасности)
+        # Проверка страницы авторизации на странице СберБанк Онлайн (Правила безопасности)
         security_regulations = driver.find_element(By.XPATH, locators.SECURITY_REGULATIONS)
         assert security_regulations.text == "Правила безопасности"
         print("СберБанк Онлайн")
+
         # Переключение между вкладками
         driver.switch_to.window(driver.window_handles[0])
-        print("Переключение на вкладку главная страница")
-        time.sleep(3)
-
-        # Главная страница СберБанк
-        sberbank_title = driver.find_element(By.XPATH, locators.SBERBANK_TITLE)
-        assert sberbank_title.text == ""
+        # Проверка заголовка Лучшие предложения для главной страницы Сбера
+        the_best_offers_title = driver.find_element(By.XPATH, locators.THE_BEST_OFFERS_TITLE)
+        assert the_best_offers_title.text == "Лучшие предложения"
         print("Главная страница Сбербанк")
-        time.sleep(3)
+        # time.sleep(3)
     finally:
         driver.quit()
