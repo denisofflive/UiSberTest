@@ -1,10 +1,12 @@
 import time
+import pytest
 from Steps.assert_steps import AssertSteps
 from pages.locators import main_url
 from pages.main_page import MainPage
 
 
 # Тест с проверкой корректного перехода по ссылкам меню "Курсы валют, "Офисы", "Банкоматы"
+@pytest.mark.full_regress
 def test_moving_menu_links(browser):
     try:
         main_page = MainPage(browser, main_url)
@@ -47,6 +49,7 @@ def test_moving_menu_links(browser):
         browser.quit()
 
 # Тест с проверкой корректного перехода по ссылке меню "СберБанк Онлайн"
+@pytest.mark.full_regress
 def test_moving_menu_sberonline_link(browser):
     try:
         main_page = MainPage(browser, main_url)
@@ -69,6 +72,7 @@ def test_moving_menu_sberonline_link(browser):
         browser.quit()
 
 # Тест с проверкой корректной работы поиска
+@pytest.mark.full_regress
 def test_check_search(browser):
     try:
         main_page = MainPage(browser, main_url)
@@ -92,6 +96,7 @@ def test_check_search(browser):
 
 # Тест - проверка корректного количества элементов на странице для ссылок "Курсы валют, Офисы, Банкоматы,
 # СберБанк Онлайн"
+@pytest.mark.full_regress
 def test_count_links(browser):
     try:
         main_page = MainPage(browser, main_url)
@@ -117,6 +122,7 @@ def test_count_links(browser):
         browser.quit()
 
 # Тест - проверка изменения цвета ссылок "Курсы валют", "Офисы", "Банкоматы", "СберБанк Онлайн"
+@pytest.mark.smoke
 def test_color_links(browser):
     try:
         main_page = MainPage(browser, main_url)
@@ -146,6 +152,7 @@ def test_color_links(browser):
         browser.quit()
 
 # Тест с проверками корректности заголовков страниц для сценария
+@pytest.mark.full_regress
 def test_check_headers(browser):
     try:
         main_page = MainPage(browser, main_url)

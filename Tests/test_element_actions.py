@@ -84,4 +84,3 @@ def test_actions_chains(browser):
     # Наведение курсора мыши на Поиск
     main_page.actionChains_search_button()
     time.sleep(3)
-

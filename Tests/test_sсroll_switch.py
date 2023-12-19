@@ -8,6 +8,7 @@ from pages.main_page import MainPage
 
 
 # Тест - скролл по странице
+@pytest.mark.smoke
 def test_scroll_page(browser):
     main_page = MainPage(browser, main_url)
     # Открываем страницу

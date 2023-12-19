@@ -1,8 +1,10 @@
 import time
+import pytest
 from conftest import browser
 from pages.locators import main_url
 from pages.main_page import MainPage
 
+@pytest.mark.full_regress
 def test_offices_atms_counts(browser):
     main_page = MainPage(browser, main_url)
     # Открываем страницу

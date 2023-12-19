@@ -7,6 +7,7 @@ from pages.main_page import MainPage
 
 
 # Тест подсчета элементов на странице у курсов валют
+@pytest.mark.full_regress
 def test_open_sber_main_page(browser):
     try:
         # Запуск браузера
@@ -22,6 +23,7 @@ def test_open_sber_main_page(browser):
         browser.quit()
 
 # Тест - проверка корректного перехода по ссылкам меню
+@pytest.mark.full_regress
 def test_moving_menu_links(browser):
     try:
         # Запуск браузера
@@ -67,7 +69,7 @@ def test_check_geoposition(browser):
         time.sleep(3)
     finally:
         browser.quit()
-
+@pytest.mark.smoke
 def test_count_links(browser):
     try:
         # Запуск браузера
@@ -86,6 +88,7 @@ def test_count_links(browser):
     finally:
         browser.quit()
 
+@pytest.mark.smoke
 def test_color_links(browser):
     try:
         # Запуск браузера
@@ -102,6 +105,7 @@ def test_color_links(browser):
         browser.quit()
 
 # Негативный тест - проверка корректного перехода по ссылкам меню
+@pytest.mark.smoke
 def test_moving_menu_links_negative(browser):
     try:
         # Запуск браузера
@@ -124,6 +128,7 @@ def test_moving_menu_links_negative(browser):
         browser.quit()
 
 # Негативный тест - проверка некорректного поиска и выбора геопозиции
+@pytest.mark.smoke
 def test_check_geoposition_negative(browser):
     try:
         # Запуск браузера
