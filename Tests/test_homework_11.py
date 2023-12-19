@@ -1,10 +1,5 @@
 import time
-from selenium import webdriver
-from selenium.webdriver import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 from Steps.assert_steps import AssertSteps
-from pages import locators as locators
 from pages.locators import main_url
 from pages.main_page import MainPage
 
@@ -85,16 +80,12 @@ def test_check_search(browser):
         main_page.click_on_geoposition_link()
 
         # Ввести имя региона Ленинградская область
-        region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
-        region_name_field.send_keys("Ленинградская область")
+        main_page.fill_leningrad_region_name()
         # Нажать на кнопку поиска
-        region_name_button_leningrad = driver.find_element(By.XPATH, locators.LENINGRAD_REGION_FIELD)
-        region_name_button_leningrad.click()
+        main_page.click_on_leningrad_region_field()
         time.sleep(3)
-        # Проверяем текст выбранный на странице (Ростовская область), что он там есть
-        geo_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        assert geo_button.text == "Ленинградская область"
-        print("Ленинградская область")
+        # Проверяем, что выбранный текст на странице (Ленинградская область) есть
+        assert_steps.assert_leningrad_geopostion()
         time.sleep(3)
     finally:
         browser.quit()

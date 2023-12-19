@@ -63,7 +63,7 @@ def test_check_geoposition(browser):
         time.sleep(3)
         # Проверяем текст выбранный на странице (Ростовская область), что он там есть
         main_page.geoposition()
-        assert_steps.assert_geopostion()
+        assert_steps.assert_rostov_geopostion()
         time.sleep(3)
     finally:
         browser.quit()
@@ -96,7 +96,7 @@ def test_color_links(browser):
         # Геометка
         main_page.geoposition()
         # Проверка, что цвет до и после наведения мыши на вкладку Сбербанк Онлайн не равны
-        assert_steps.assert_colors_not_equal()
+        assert_steps.assert_colors_not_equal_by_sber_online()
         time.sleep(3)
     finally:
         browser.quit()

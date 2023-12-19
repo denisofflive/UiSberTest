@@ -132,10 +132,16 @@ class AssertSteps():
         print("Лучшие предложения")
 
     # Проверка геопозиции Ростовская область
-    def assert_geopostion(self):
+    def assert_rostov_geopostion(self):
         assert self.driver.find_element(
             *MainPageLocators.GEOPOSITION_LINK).text == "Ростовская область"
         print("Ростовская область")
+
+    # Проверка геопозиции Ленинградская область
+    def assert_leningrad_geopostion(self):
+        assert self.driver.find_element(
+            *MainPageLocators.GEOPOSITION_LINK).text == "Ленинградская область"
+        print("Ленинградская область")
 
     # Проверка некорректного заголовка Курсы валют
     def assert_incorrect_exchange_rates_title(self):

@@ -75,6 +75,7 @@ def test_check_geoposition(browser, text):
     assert_steps.assert_region_name_in_geo_link(text)
     time.sleep(3)
 
+# Негативный тест - проверка некорректной геопозиции
 @pytest.mark.full_regress
 def test_incorrect_geoposition(browser):
     main_page = MainPage(browser, main_url)
@@ -121,10 +122,10 @@ def test_color_links(browser):
     # Находим вкладку СберБанк Онлайн
     main_page.sberonline_button()
     # Проверяем, что цвет до и после наведения мыши не равны
-    assert_steps.assert_colors_not_equal()
+    assert_steps.assert_colors_not_equal_by_sber_online()
     time.sleep(3)
 
-# Негативный тест - проверка корректного перехода по ссылкам меню
+# Негативный тест - проверка некорректного названия заголовка Курсы валют
 @pytest.mark.full_regress
 def test_moving_menu_links_negative(browser):
     try:
@@ -148,6 +149,7 @@ def test_moving_menu_links_negative(browser):
     finally:
         browser.quit()
 
+# Негативный тест - проверка некорректного региона
 @pytest.mark.full_regress
 def test_check_incorrect_geoposition(browser):
     main_page = MainPage(browser, main_url)

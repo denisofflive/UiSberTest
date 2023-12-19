@@ -55,6 +55,11 @@ class MainPage(BasePage):
         region_name_field = self.driver.find_element(*MainPageLocators.REGION_NAME_FIELD)
         region_name_field.send_keys("Ростовская область")
 
+        # Ввести регион Ленинградская область
+    def fill_leningrad_region_name(self):
+        region_name_field = self.driver.find_element(*MainPageLocators.REGION_NAME_FIELD)
+        region_name_field.send_keys("Ленинградская область")
+
     # Выбрать регион(ы) из text и кликнуть по региону(ам)
     def click_on_region_names_link(self, text):
         link = self.driver.find_element(By.XPATH, "//button[text()[contains(.,'" + text.title() + "')]]")
@@ -64,6 +69,12 @@ class MainPage(BasePage):
     def click_on_rostov_region_field(self):
         rostov_region_field = self.driver.find_element(*MainPageLocators.ROSTOV_REGION_FIELD)
         rostov_region_field.click()
+        print("Ростовская область")
+
+    # Нажать на Ленинградскую область
+    def click_on_leningrad_region_field(self):
+        leningrad_region_field = self.driver.find_element(*MainPageLocators.LENINGRAD_REGION_FIELD)
+        leningrad_region_field.click()
         print("Ростовская область")
 
     # Выбрать английский язык
