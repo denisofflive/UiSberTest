@@ -17,6 +17,8 @@ class MainPageLocators(BasePageLocators):
     SBERBANK_TITLE = (By.XPATH, "//a[@aria-label='Официальный сайт Сбербанка России']")
     # Заголовок Сбербанк Онлайн
     SBERONLINE_TITLE = (By.XPATH, "//h1[text()='СберБанк']")
+    # Заголовок Лучшие предложения
+    THE_BEST_OFFERS_TITLE = "//span[text()='Лучшие предложения']"
     # Геопозиция
     GEOPOSITION_LINK = (By.XPATH, "//a[@title='Изменить регион']")
     # Поле выбора имени региона

@@ -1,183 +1,146 @@
 import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from pages import locators as locators
+import pytest
+from Steps.assert_steps import AssertSteps
+from conftest import browser
+from pages.locators import main_url
+from pages.main_page import MainPage
+
 
 # Тест подсчета элементов на странице у курсов валют
-def test_open_sber_main_page():
+def test_open_sber_main_page(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
-
+        # Запуск браузера
+        main_page = MainPage(browser, main_url)
+        # Открываем страницу
+        main_page.open()
         # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
-
+        main_page.geoposition()
         # Подсчет элементов на странице у курсов валют
-        exchange_rates_count = driver.find_elements(By.XPATH, locators.EXCHANGE_RATES_LINK)
-        print("count exchange =", len(exchange_rates_count))
+        main_page.exchange_rates_count()
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
 # Тест - проверка корректного перехода по ссылкам меню
-def test_moving_menu_links():
+def test_moving_menu_links(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
-
+        # Запуск браузера
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
         # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
+        main_page.geoposition()
+
         # Нажать на вкладку Курсы валют
-        exchange_rates_button = driver.find_element(By.XPATH, locators.EXCHANGE_RATES_LINK)
-        exchange_rates_button.click()
-        print("Нажать на вкладку Курсы валют")
+        main_page.click_on_exchange_rates_link()
         # Переключение между вкладками
-        driver.switch_to.window(driver.window_handles[1])
-        print("Переключение между вкладками")
+        browser.switch_to.window(browser.window_handles[1])
         time.sleep(3)
         # Проверка страницы Курсы валют
-        first_page_title = driver.find_element(By.XPATH, locators.FIRST_PAGE_TITLE)
-        assert first_page_title.text == "Курсы валют"
-        print("Курсы валют")
+        assert_steps.assert_exchange_rates_title()
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
 # Тест - проверка корректного поиска и выбора геопозиции
-def test_check_geoposition():
+@pytest.mark.smoke
+@pytest.mark.full_regress
+def test_check_geoposition(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
-
+        # Запуск браузера
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
         # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
-        geo_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("geo_button_text", geo_button.text)
-        geo_button.click()
-        region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
-        region_name_field.send_keys("Ростовская область")
-        region_name_button = driver.find_element(By.XPATH, locators.ROSTOV_REGION_FIELD)
-        region_name_button.click()
+        main_page.geoposition()
+        # Нажать на геопозицию и вывести её на экран
+        main_page.click_on_geoposition_link()
+        # Ввести регион Ростовская область и кликнуть по нему
+        main_page.fill_rostov_region_name()
+        main_page.click_on_rostov_region_field()
         time.sleep(3)
         # Проверяем текст выбранный на странице (Ростовская область), что он там есть
-        geo_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        assert geo_button.text == "Ростовская область"
-        print("Ростовская область")
+        main_page.geoposition()
+        assert_steps.assert_geopostion()
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
-def test_count_links():
+def test_count_links(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
-
+        # Запуск браузера
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
         # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
-        # Подсчет элементов на странице у курсов валют (выше мы делали подсчёт - их было 4)
-        exchange_rates_count = driver.find_elements(By.XPATH, locators.EXCHANGE_RATES_LINK_ALL)
-        assert len(exchange_rates_count) == 4
-        print("Верно")
+        main_page.geoposition()
+
+        # Подсчет элементов на странице у курсов валют
+        main_page.exchange_rates_count()
+        # Проверка количества элементов
+        assert_steps.assert_exchange_rates_count()
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
-def test_color_links():
+def test_color_links(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
-
+        # Запуск браузера
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
         # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
-
-        # Находим вкладку СберБанк Онлайн
-        sberonline_button = driver.find_element(By.XPATH, locators.SBERBANK_ONLINE_BUTTON)
-        # Цвет до наведения курсора мыши на СберБанк Онлайн
-        color_before_perform = sberonline_button.value_of_css_property('color')
-        # Наведение курсора мыши на СберБанк Онлайн
-        ActionChains(driver).move_to_element(sberonline_button).perform()
-        # Цвет после наведения курсора мыши на СберБанк Онлайн
-        color_after_perform = sberonline_button.value_of_css_property('color')
-        # Проверяем, что цвет до и после не равны
-        assert color_before_perform != color_after_perform
-        print("Верно")
+        main_page.geoposition()
+        # Проверка, что цвет до и после наведения мыши на вкладку Сбербанк Онлайн не равны
+        assert_steps.assert_colors_not_equal()
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
 # Негативный тест - проверка корректного перехода по ссылкам меню
-def test_moving_menu_links_negative():
+def test_moving_menu_links_negative(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
-
+        # Запуск браузера
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
         # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
+        main_page.geoposition()
+
         # Нажать на вкладку Курсы валют
-        exchange_rates_button = driver.find_element(By.XPATH, locators.EXCHANGE_RATES_LINK)
-        exchange_rates_button.click()
-        print("Нажать на вкладку Курсы валют")
+        main_page.click_on_exchange_rates_link()
         # Переключение между вкладками
-        driver.switch_to.window(driver.window_handles[1])
-        print("Переключение между вкладками")
+        browser.switch_to.window(browser.window_handles[1])
         time.sleep(3)
         # Проверка страницы Курсы валют
-        first_page_title = driver.find_element(By.XPATH, locators.FIRST_PAGE_TITLE)
-        assert first_page_title.text == "Курсы валют1"
-        print("Курсы валют")
+        assert_steps.assert_incorrect_exchange_rates_title()
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
-# Негативный тест - проверка корректного поиска и выбора геопозиции
-def test_check_geoposition_negative():
+# Негативный тест - проверка некорректного поиска и выбора геопозиции
+def test_check_geoposition_negative(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
-
+        # Запуск браузера
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
         # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
-        geo_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("geo_button_text", geo_button.text)
-        geo_button.click()
-        region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
-        region_name_field.send_keys("Ростовская область")
-        region_name_button = driver.find_element(By.XPATH, locators.ROSTOV_REGION_FIELD)
-        region_name_button.click()
+        main_page.geoposition()
+        main_page.click_on_geoposition_link()
+        # Ввести регион - Ростовская область
+        main_page.fill_rostov_region_name()
+        # Нажать на Ростовскую область
+        main_page.click_on_rostov_region_field()
         time.sleep(3)
         # Проверяем текст выбранный на странице (Ростовская область), что он там есть
-        geo_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        assert geo_button.text == "Ростовская область1"
-        print("Ростовская область")
+        assert_steps.assert_incorrect_rostov_geoposition()
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()

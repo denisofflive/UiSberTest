@@ -1,111 +1,89 @@
 import time
 from selenium import webdriver
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
+from Steps.assert_steps import AssertSteps
 from pages import locators as locators
+from pages.locators import main_url
+from pages.main_page import MainPage
+
 
 # Тест с проверкой корректного перехода по ссылкам меню "Курсы валют, "Офисы", "Банкоматы"
-def test_moving_menu_links():
+def test_moving_menu_links(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
-
-        # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
+        # Геометка (без неё не сработает тест)
+        main_page.geoposition()
 
         # Нажать на вкладку Курсы валют
-        exchange_rates_button = driver.find_element(By.XPATH, locators.EXCHANGE_RATES_LINK)
-        exchange_rates_button.click()
-        print("Нажать на вкладку Курсы валют")
+        main_page.click_on_exchange_rates_link()
         # Переключение между вкладками
-        driver.switch_to.window(driver.window_handles[1])
-        print("Переключение между вкладками")
+        browser.switch_to.window(browser.window_handles[1])
         time.sleep(3)
         # Проверка страницы Курсы валют
-        first_page_title = driver.find_element(By.XPATH, locators.FIRST_PAGE_TITLE)
-        assert first_page_title.text == "Курсы валют"
-        print("Курсы валют")
+        assert_steps.assert_exchange_rates_title()
         # Переключение между вкладками (главная страница)
-        driver.switch_to.window(driver.window_handles[0])
+        browser.switch_to.window(browser.window_handles[0])
         print("Переключение на вкладку Главная страница")
         time.sleep(3)
 
         # Нажать на вкладку Офисы
-        offices_button = driver.find_element(By.XPATH, locators.OFFICES_BUTTON)
-        offices_button.click()
-        print("Нажать на вкладку Офисы")
-        time.sleep(5)
+        main_page.click_on_offices_link()
+        time.sleep(3)
         # Проверка страницы Офисы
-        offices_page_title = driver.find_element(By.XPATH, locators.OFFICES_PAGE_TITLE)
-        assert offices_page_title.text == "Офисы и банкоматы"
-        print("Офисы и банкоматы")
-        time.sleep(5)
+        assert_steps.assert_offices_page_title()
+        time.sleep(3)
         # Вернуться назад (на главную страницу)
-        driver.back()
+        browser.back()
 
         # Нажать на вкладку Банкоматы
-        atms_button = driver.find_element(By.XPATH, locators.ATMS_BUTTON)
-        atms_button.click()
-        print("Нажать на вкладку Банкоматы")
-        time.sleep(5)
+        main_page.click_on_atms_link()
+        time.sleep(3)
         # Проверка страницы Банкоматы
-        atms_button_page_title = driver.find_element(By.XPATH, locators.ATMS_BUTTON_PAGE_TITLE)
-        assert atms_button_page_title.text == "Офисы и банкоматы"
-        print("Офисы и банкоматы")
+        assert_steps.assert_atms_page_title()
         # Вернуться назад (на главную страницу)
-        driver.back()
-        time.sleep(5)
+        browser.back()
+        time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
 # Тест с проверкой корректного перехода по ссылке меню "СберБанк Онлайн"
-def test_moving_menu_sberonline_link():
+def test_moving_menu_sberonline_link(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
+        # Геометка (без неё не сработает тест)
+        main_page.geoposition()
 
-        # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
         # Нажать на вкладку СберБанк Онлайн
-        sberonline_button = driver.find_element(By.XPATH, locators.SBERBANK_ONLINE_BUTTON)
-        sberonline_button.click()
-        print("Нажать на вкладку СберБанк Онлайн")
+        main_page.click_on_sberonline_button()
         time.sleep(3)
         # Переключение между вкладками
-        driver.switch_to.window(driver.window_handles[1])
-        print("Переключение на вкладку СберБанк Онлайн")
+        browser.switch_to.window(browser.window_handles[1])
         time.sleep(3)
-        # Проверка страницы СберБанк
-        sberonline_title = driver.find_element(By.XPATH, locators.SBERONLINE_TITLE)
-        assert sberonline_title.text == "СберБанк"
-        print("СберБанк")
-        time.sleep(5)
+        # Проверка страницы СберБанк (Правила безопасности)
+        assert_steps.assert_security_regulations_title_on_sber_online()
+        time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
 # Тест с проверкой корректной работы поиска
-def test_check_search():
+def test_check_search(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
+        # Геометка (без неё не сработает тест)
+        main_page.geoposition()
+        main_page.click_on_geoposition_link()
 
-        # Геометка
-        driver.find_element(By.XPATH, locators.GEO)
-        print("Геометка")
-        geo_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("geo_button_text", geo_button.text)
-        geo_button.click()
         # Ввести имя региона Ленинградская область
         region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
         region_name_field.send_keys("Ленинградская область")
@@ -119,152 +97,84 @@ def test_check_search():
         print("Ленинградская область")
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
 # Тест - проверка корректного количества элементов на странице для ссылок "Курсы валют, Офисы, Банкоматы,
 # СберБанк Онлайн"
-def test_count_links():
+def test_count_links(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
+        # Геометка (без неё не сработает тест)
+        main_page.geoposition()
 
-        # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
-
-        # Подсчет элементов на странице у Курсов валют
-        exchange_rates_count = driver.find_elements(By.XPATH, locators.EXCHANGE_RATES_LINK_ALL)
-        assert len(exchange_rates_count) == 4
-        print("Количество элементов на странице у Курсы валют 4")
+        # Проверка и подсчет элементов на странице у Курсов валют
+        assert_steps.assert_exchange_rates_count()
 
         # Подсчет элементов на странице у Офисов
-        offices_count = driver.find_elements(By.XPATH, locators.OFFICES_COUNT)
-        assert len(offices_count) == 3
-        print("Количество элементов на странице у Офисы 3")
+        assert_steps.assert_offices_count()
 
         # Подсчет элементов на странице у Банкоматов
-        atms_count = driver.find_elements(By.XPATH, locators.ATMS_COUNT)
-        assert len(atms_count) == 3
-        print("Количество элементов на странице у Бакоматы 3")
+        assert_steps.assert_atms_count()
+
         # Подсчет элементов на странице у СберБанк Онлайн
-        sberonline_count = driver.find_elements(By.XPATH, locators.SBERBANK_ONLINE_BUTTON)
-        assert len(sberonline_count) == 1
-        print("Количество элементов на странице у СберБанк Онлайн 1")
+        assert_steps.assert_sber_online_count()
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
 # Тест - проверка изменения цвета ссылок "Курсы валют", "Офисы", "Банкоматы", "СберБанк Онлайн"
-def test_color_links():
+def test_color_links(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
+        # Геометка (без неё не сработает тест)
+        main_page.geoposition()
+        time.sleep(3)
 
-        # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
-
-        # Находим вкладку Курсы валют
-        exchange_rates_button = driver.find_element(By.XPATH, locators.EXCHANGE_RATES_LINK)
-        # Цвет до наведения курсора мыши на Курсы валют
-        color_before_perform_ex = exchange_rates_button.value_of_css_property('color')
-        # Наведение курсора мыши на СберБанк Онлайн
-        ActionChains(driver).move_to_element(exchange_rates_button).perform()
-        # Цвет после наведения курсора мыши на Курсы валют
-        color_after_perform_ex = exchange_rates_button.value_of_css_property('color')
-        # Проверяем, что цвет до и после не равны
-        assert color_before_perform_ex != color_after_perform_ex
-        print("Верно Курсы валют")
+        # Проверка, что цвет до и после наведения на вкладку Курсы валют мыши не равны
+        assert_steps.assert_colors_not_equal_by_exchange_rates()
         time.sleep(3)
 
         # Находим вкладку Офисы
-        offices_button = driver.find_element(By.XPATH, locators.OFFICES_BUTTON)
-        # Цвет до наведения курсора мыши на Офисы
-        color_before_perform_o = offices_button.value_of_css_property('color')
-        # Наведение курсора мыши на Офисы
-        ActionChains(driver).move_to_element(offices_button).perform()
-        # Цвет после наведения курсора мыши на Офисы
-        color_after_perform_o = offices_button.value_of_css_property('color')
-        # Проверяем, что цвет до и после не равны
-        assert color_before_perform_o != color_after_perform_o
-        print("Верно Офисы")
+        assert_steps.assert_colors_not_equal_by_offices()
         time.sleep(3)
 
         # Находим вкладку Банкоматы
-        atms_button = driver.find_element(By.XPATH, locators.ATMS_BUTTON)
-        # Цвет до наведения курсора мыши на Банкоматы
-        color_before_perform_atms = atms_button.value_of_css_property('color')
-        # Наведение курсора мыши на Офисы
-        ActionChains(driver).move_to_element(offices_button).perform()
-        # Цвет после наведения курсора мыши на Банкоматы
-        color_after_perform_atms = offices_button.value_of_css_property('color')
-        # Проверяем, что цвет до и после не равны
-        assert color_before_perform_atms != color_after_perform_atms
-        print("Верно Банкоматы")
+        assert_steps.assert_colors_not_equal_by_atms()
         time.sleep(3)
 
         # Находим вкладку СберБанк Онлайн
-        sberonline_button = driver.find_element(By.XPATH, locators.SBERBANK_ONLINE_BUTTON)
-        # Цвет до наведения курсора мыши на СберБанк Онлайн
-        color_before_perform = sberonline_button.value_of_css_property('color')
-        # Наведение курсора мыши на СберБанк Онлайн
-        ActionChains(driver).move_to_element(sberonline_button).perform()
-        # Цвет после наведения курсора мыши на СберБанк Онлайн
-        color_after_perform = sberonline_button.value_of_css_property('color')
-        # Проверяем, что цвет до и после не равны
-        assert color_before_perform != color_after_perform
-        print("Верно СберБанк Онлайн")
+        assert_steps.assert_colors_not_equal_by_sber_online()
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()
 
 # Тест с проверками корректности заголовков страниц для сценария
-def test_check_headers():
+def test_check_headers(browser):
     try:
-        driver = webdriver.Chrome()
-        webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-        driver.implicitly_wait(10)
-        driver.get("http://www.sberbank.ru/")
-        driver.maximize_window()
-
-        # Геометка
-        driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-        print("Геометка")
-
-        # Главная страница СберБанк
-        sberbank_title = driver.find_element(By.XPATH, locators.SBERBANK_TITLE)
-        assert sberbank_title.text == ""
-        print("Главная страница Сбербанк")
-        time.sleep(3)
+        main_page = MainPage(browser, main_url)
+        assert_steps = AssertSteps(browser)
+        # Открываем страницу
+        main_page.open()
+        # Геометка (без неё не сработает тест)
+        main_page.geoposition()
 
         # Нажать на вкладку СберБанк Онлайн
-        sberonline_button = driver.find_element(By.XPATH, locators.SBERBANK_ONLINE_BUTTON)
-        sberonline_button.click()
-        print("Нажать на вкладку СберБанк Онлайн")
-        time.sleep(3)
+        main_page.click_on_sberonline_button()
         # Переключение между вкладками
-        driver.switch_to.window(driver.window_handles[1])
-        print("Переключение на вкладку СберБанк Онлайн")
-        time.sleep(3)
-        # Проверка страницы СберБанк Онлайн (Правила безопасности)
-        security_regulations = driver.find_element(By.XPATH, locators.SECURITY_REGULATIONS)
-        assert security_regulations.text == "Правила безопасности"
-        print("СберБанк Онлайн")
+        browser.switch_to.window(browser.window_handles[1])
+        # Проверка страницы авторизации на странице СберБанк Онлайн (Правила безопасности)
+        assert_steps.assert_security_regulations_title_on_sber_online()
         # Переключение между вкладками
-        driver.switch_to.window(driver.window_handles[0])
-        print("Переключение на вкладку главная страница")
+        browser.switch_to.window(browser.window_handles[0])
         time.sleep(3)
-
-        # Главная страница СберБанк
-        sberbank_title = driver.find_element(By.XPATH, locators.SBERBANK_TITLE)
-        assert sberbank_title.text == ""
-        print("Главная страница Сбербанк")
+        # Проверка заголовка Лучшие предложения для главной страницы Сбера
+        assert_steps.assert_best_offers_title_on_sber()
         time.sleep(3)
     finally:
-        driver.quit()
+        browser.quit()

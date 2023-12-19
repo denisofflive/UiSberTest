@@ -7,16 +7,38 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 class MainPage(BasePage):
 
-    # Нажать на Курсы валют
+    # Нажать на вкладку Курсы валют
     def click_on_exchange_rates_link(self):
         button = self.driver.find_element(*MainPageLocators.EXCHANGE_RATES_LINK)
         button.click()
         print("Нажать на вкладку Курсы валют")
 
-    # Подсчет всех элементов (поэтому find_elementS) на странице у курсов валют
+    # Нажать на вкладку Офисы
+    def click_on_offices_link(self):
+        button = self.driver.find_element(*MainPageLocators.OFFICES_BUTTON)
+        button.click()
+        print("Нажать на вкладку Офисы")
+
+    # Нажать на вкладку Банкоматы
+    def click_on_atms_link(self):
+        button = self.driver.find_element(*MainPageLocators.ATMS_BUTTON)
+        button.click()
+        print("Нажать на вкладку Банкоматы")
+
+    # Подсчет всех элементов (поэтому find_elementS) на странице - Курсы валют
     def exchange_rates_count(self):
         exchange_rates_count = self.driver.find_elements(*MainPageLocators.EXCHANGE_RATES_LINK_ALL)
-        print("count exchange =", len(exchange_rates_count))
+        print("Количество элементов Курсы валют =", len(exchange_rates_count))
+
+    # Подсчет всех элементов (поэтому find_elementS) на странице - Офисы
+    def offices_count(self):
+        offices_count = self.driver.find_elements(*MainPageLocators.OFFICES_COUNT)
+        print("Количество элементов Офисы =", len(offices_count))
+
+    # Подсчет всех элементов (поэтому find_elementS) на странице - Банкоматы
+    def atms_count(self):
+        atms_count = self.driver.find_elements(*MainPageLocators.ATMS_COUNT)
+        print("Количество элементов Банкоматы =", len(atms_count))
 
     def geoposition(self):
         self.driver.find_element(*MainPageLocators.GEOPOSITION_LINK)
@@ -28,10 +50,21 @@ class MainPage(BasePage):
         print("Регион:", geo_button.text)
         geo_button.click()
 
+    # Ввести регион Ростовская область
+    def fill_rostov_region_name(self):
+        region_name_field = self.driver.find_element(*MainPageLocators.REGION_NAME_FIELD)
+        region_name_field.send_keys("Ростовская область")
+
     # Выбрать регион(ы) из text и кликнуть по региону(ам)
-    def click_on_region_name_link(self, text):
+    def click_on_region_names_link(self, text):
         link = self.driver.find_element(By.XPATH, "//button[text()[contains(.,'" + text.title() + "')]]")
         link.click()
+
+    # Нажать на Ростовскую область
+    def click_on_rostov_region_field(self):
+        rostov_region_field = self.driver.find_element(*MainPageLocators.ROSTOV_REGION_FIELD)
+        rostov_region_field.click()
+        print("Ростовская область")
 
     # Выбрать английский язык
     def click_on_eng_language(self):
@@ -110,3 +143,39 @@ class MainPage(BasePage):
     def first_page_title_exchange_rates(self):
         self.driver.find_elements(*MainPageLocators.FIRST_PAGE_TITLE_EXCHANGE_RATES)
         print("Курсы валют")
+
+    # Наведение курсора мыши на Курсы Валют
+    def actionChains_exchange_rates_button(self):
+        exchange_rates_button = self.driver.find_element(*MainPageLocators.EXCHANGE_RATES_LINK)
+        ActionChains(self.driver).move_to_element(exchange_rates_button).perform()
+        print("Цвет кнопки Курсы Валют изменился")
+
+    # Наведение курсора мыши на Офисы
+    def actionChains_offices_button(self):
+        offices_button = self.driver.find_element(*MainPageLocators.OFFICES_BUTTON)
+        ActionChains(self.driver).move_to_element(offices_button).perform()
+        print("Цвет кнопки Офисы изменился")
+
+    # Наведение курсора мыши на Банкоматы
+    def actionChains_atms_button(self):
+        atms_button = self.driver.find_element(*MainPageLocators.ATMS_BUTTON)
+        ActionChains(self.driver).move_to_element(atms_button).perform()
+        print("Цвет кнопки Банкоматы изменился")
+
+    # Наведение курсора мыши на Геопозиция
+    def actionChains_geoposition_button(self):
+        geoposition_button = self.driver.find_element(*MainPageLocators.GEOPOSITION_LINK)
+        ActionChains(self.driver).move_to_element(geoposition_button).perform()
+        print("Цвет кнопки Геопозиция изменился")
+
+    # Наведение курсора мыши на Смена языка
+    def actionChains_change_language_button(self):
+        change_language_button = self.driver.find_element(*MainPageLocators.ENG_LANGUAGE)
+        ActionChains(self.driver).move_to_element(change_language_button).perform()
+        print("Цвет кнопки Смена языка изменился")
+
+    # Наведение курсора мыши на Поиск
+    def actionChains_search_button(self):
+        search_button = self.driver.find_element(*MainPageLocators.SEARCH_BUTTON)
+        ActionChains(self.driver).move_to_element(search_button).perform()
+        print("Цвет кнопки Смена языка изменился")

@@ -1,30 +1,28 @@
 import time
-
 import pytest
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from pages import locators as locators
 from pages.locators import main_url
 from pages.main_page import MainPage
 
 # Выбор английского языка
 @pytest.mark.smoke
 def test_change_language_page(browser):
+    # Запуск браузера
     main_page = MainPage(browser, main_url)
     # Открываем страницу
     main_page.open()
-    # Геометка (без неё не сработает тест)
+    # Геометка
     main_page.geoposition()
     # Выбрать английский язык
     main_page.click_on_eng_language()
     time.sleep(3)
 
+@pytest.mark.full_regress
 def test_search(browser):
+    # Запуск браузера
     main_page = MainPage(browser, main_url)
     # Открываем страницу
     main_page.open()
-    # Геометка (без неё не сработает тест)
+    # Геометка
     main_page.geoposition()
     time.sleep(3)
     # Клик и поиск по сайту
@@ -53,48 +51,37 @@ def test_search(browser):
     main_page.click_on_reset_button()
     time.sleep(5)
 
+@pytest.mark.smoke
 def test_actions_chains(browser):
+    # Запуск браузера
     main_page = MainPage(browser, main_url)
     # Открываем страницу
     main_page.open()
-    # Геометка (без неё не сработает тест)
+    # Геометка
     main_page.geoposition()
-    # Нажать на геопозицию
-    main_page.click_on_geoposition_link()
-    time.sleep(3)
+    time.sleep(1)
 
     # Наведение курсора мыши на Курсы Валют
-    exchange_rates_button = driver.find_element(By.XPATH, locators.EXCHANGE_RATES_LINK)
-    ActionChains(driver).move_to_element(exchange_rates_button).perform()
-    print("Цвет кнопки Курсы Валют изменился")
-    time.sleep(3)
+    main_page.actionChains_exchange_rates_button()
+    time.sleep(1)
 
     # Наведение курсора мыши на Офисы
-    offices_button = driver.find_element(By.XPATH, locators.OFFICES_BUTTON)
-    ActionChains(driver).move_to_element(offices_button).perform()
-    print("Цвет кнопки Офисы изменился")
-    time.sleep(3)
+    main_page.actionChains_offices_button()
+    time.sleep(1)
 
     # Наведение курсора мыши на Банкоматы
-    atms_button = driver.find_element(By.XPATH, locators.ATMS_BUTTON)
-    ActionChains(driver).move_to_element(atms_button).perform()
-    print("Цвет кнопки Банкоматы изменился")
-    time.sleep(3)
+    main_page.actionChains_atms_button()
+    time.sleep(1)
 
     # Наведение курсора мыши на Геопозиция
-    geoposition_button = driver.find_element(By.XPATH, locators.GEOPOSITION_LINK)
-    ActionChains(driver).move_to_element(geoposition_button).perform()
-    print("Цвет кнопки Геопозиция изменился")
-    time.sleep(3)
+    main_page.actionChains_geoposition_button()
+    time.sleep(1)
 
     # Наведение курсора мыши на Смена языка
-    change_language_button = driver.find_element(By.XPATH, locators.ENG_LANGUAGE)
-    ActionChains(driver).move_to_element(change_language_button).perform()
-    print("Цвет кнопки Смена языка изменился")
-    time.sleep(3)
+    main_page.actionChains_change_language_button()
+    time.sleep(1)
 
     # Наведение курсора мыши на Поиск
-    search_button = driver.find_element(By.XPATH, locators.SEARCH_BUTTON)
-    ActionChains(driver).move_to_element(search_button).perform()
-    print("Цвет кнопки Поиск изменился")
+    main_page.actionChains_search_button()
     time.sleep(3)
+

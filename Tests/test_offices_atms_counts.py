@@ -1,22 +1,20 @@
 import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
+from conftest import browser
+from pages.locators import main_url
+from pages.main_page import MainPage
 
-def test_offices_atms_counts():
-    driver = webdriver.Chrome()
-    webdriver.ChromeOptions().add_argument('ignore-certificate-errors')
-    driver.implicitly_wait(10)
-    driver.get("http://www.sberbank.ru/")
-    driver.maximize_window()
-
+def test_offices_atms_counts(browser):
+    main_page = MainPage(browser, main_url)
+    # Открываем страницу
+    main_page.open()
     # Геометка
-    driver.find_element(By.XPATH, "//a[@title='Изменить регион']")
-    print("Геометка")
+    main_page.geoposition()
+    time.sleep(2)
+
     # Подсчет элементов на странице у офисов
-    offices_count = driver.find_elements(By.XPATH, "//a[text()='Офисы']")
-    print("Сount Offices =", len(offices_count))
-    time.sleep(3)
+    main_page.offices_count()
+    time.sleep(1)
+
     # Подсчет элементов на странице у банкоматов
-    atms_count = driver.find_elements(By.XPATH, "//a[text()='Банкоматы']")
-    print("Count ATMs =", len(atms_count))
+    main_page.atms_count()
     time.sleep(3)

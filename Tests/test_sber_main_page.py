@@ -70,7 +70,7 @@ def test_check_geoposition(browser, text):
     # Заполняем регион(ы) текстом
     main_page.fill_text_region_name_field(text)
     # Нажимаем на регион(ы)
-    main_page.click_on_region_name_link(text)
+    main_page.click_on_geoposition_link()
     # Проверяем текст выбранный на странице (регионы), что он там есть
     assert_steps.assert_region_name_in_geo_link(text)
     time.sleep(3)
@@ -143,7 +143,7 @@ def test_moving_menu_links_negative(browser):
         # Заголовок на странице Курсы валют
         main_page.first_page_title_exchange_rates()
         # Проверка некорректного заголовка Курсы валют
-        assert_steps.assert_incorrect_title__exchange_rates_title()
+        assert_steps.assert_incorrect_exchange_rates_title()
         time.sleep(3)
     finally:
         browser.quit()
