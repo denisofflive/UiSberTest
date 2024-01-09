@@ -8,6 +8,7 @@ from pages.main_page import MainPage
 
 
 # Тест - скролл по странице
+@pytest.mark.full_regress
 @pytest.mark.smoke
 def test_scroll_page(browser):
     main_page = MainPage(browser, main_url)
@@ -31,6 +32,7 @@ def test_scroll_page(browser):
 
 
 # Тест - переключение между вкладками
+@pytest.mark.full_regress
 @pytest.mark.smoke
 def test_switch_page(browser):
     main_page = MainPage(browser, main_url)

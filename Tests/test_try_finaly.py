@@ -69,6 +69,8 @@ def test_check_geoposition(browser):
         time.sleep(3)
     finally:
         browser.quit()
+
+@pytest.mark.full_regress
 @pytest.mark.smoke
 def test_count_links(browser):
     try:
@@ -88,6 +90,7 @@ def test_count_links(browser):
     finally:
         browser.quit()
 
+@pytest.mark.full_regress
 @pytest.mark.smoke
 def test_color_links(browser):
     try:
@@ -105,6 +108,7 @@ def test_color_links(browser):
         browser.quit()
 
 # Негативный тест - проверка корректного перехода по ссылкам меню
+@pytest.mark.full_regress
 @pytest.mark.smoke
 def test_moving_menu_links_negative(browser):
     try:
@@ -128,6 +132,7 @@ def test_moving_menu_links_negative(browser):
         browser.quit()
 
 # Негативный тест - проверка некорректного поиска и выбора геопозиции
+@pytest.mark.full_regress
 @pytest.mark.smoke
 def test_check_geoposition_negative(browser):
     try:

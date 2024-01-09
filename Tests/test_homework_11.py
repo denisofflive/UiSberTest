@@ -122,6 +122,7 @@ def test_count_links(browser):
         browser.quit()
 
 # Тест - проверка изменения цвета ссылок "Курсы валют", "Офисы", "Банкоматы", "СберБанк Онлайн"
+@pytest.mark.full_regress
 @pytest.mark.smoke
 def test_color_links(browser):
     try:

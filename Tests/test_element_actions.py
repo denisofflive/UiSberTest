@@ -4,6 +4,7 @@ from pages.locators import main_url
 from pages.main_page import MainPage
 
 # Выбор английского языка
+@pytest.mark.full_regress
 @pytest.mark.smoke
 def test_change_language_page(browser):
     # Запуск браузера
@@ -51,6 +52,7 @@ def test_search(browser):
     main_page.click_on_reset_button()
     time.sleep(5)
 
+@pytest.mark.full_regress
 @pytest.mark.smoke
 def test_actions_chains(browser):
     # Запуск браузера
