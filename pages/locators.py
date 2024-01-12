@@ -9,7 +9,7 @@ class MainPageLocators(BasePageLocators):
     SEARCH_BUTTON = (By.CLASS_NAME, "kitt-header-search")
     SEARCH_BUTTON_HOVER = (By.XPATH, "//a[@class='kitt-header-search']")
     SEARCH_INPUT = (By.CSS_SELECTOR, "[placeholder='Что ищете?']")
-    SEARCH_INPUT_VAR = (By.XPATH, "//yass-span / b")
+    SEARCH_INPUT_VAR = (By.XPATH, "//yass-span/b")
     EXCHANGE_RATES_BUTTON = (By.XPATH, "//a[text()='Курсы валют']")
     OFFICE_BUTTON = (By.XPATH, "(//a[text()='Офисы'])[2]")
     ATMS_BUTTON = (By.XPATH, "(//a[text()='Банкоматы'])[2]")

@@ -13,8 +13,8 @@ def test_search_on_the_main_page(browser):
     main_page = MainPage(browser, "http://www.sberbank.ru")
     main_page.open()
     main_page.geoposition()
-    main_page.search_button_search("Кредит")
-    main_page.assert_check_search("Кредиты", MainPageLocators.SEARCH_INPUT_VAR)
+    main_page.search_button_search("кредит")
+    main_page.assert_check_search("кредит", MainPageLocators.SEARCH_INPUT_VAR)
 
 
 # Негативный тест выполнения поиска
