@@ -1,165 +1,102 @@
-import time
 import pytest
 
-from Steps.assert_steps import AssertSteps
-from conftest import browser
-from pages.locators import main_url
+from Steps import support_steps as support_steps
 from pages.main_page import MainPage
+from pages.locators import MainPageLocators
+from pages.locators import BasePageLocators
 
-# Тест - подсчет элементов на странице у курсов валют
+
+# Тест успешного выполнения поиска
 @pytest.mark.full_regress
-def test_open_sber_main_page(browser):
-    main_page = MainPage(browser, main_url)
-    # Открываем страницу
-    main_page.open()
-    # Геометка (без неё не сработает тест)
-    main_page.geoposition()
-    # Подсчет элементов на странице у курсов валют
-    main_page.exchange_rates_count()
-    time.sleep(3)
-
-
-# Тест - проверка корректного перехода по ссылкам меню
-@pytest.mark.full_regress
-def test_moving_menu_links(browser):
-    main_page = MainPage(browser, main_url)
-    assert_steps = AssertSteps(browser)
-    # Открываем страницу
-    main_page.open()
-    # Проверяем, что ссылка с курсами валют присутствует
-    assert_steps.should_be_exchange_rates_link()
-    # Находим ссылку курсов валют и нажимаем на неё
-    main_page.click_on_exchange_rates_link()
-    # Переключение между вкладками (без переключения не сработает тест)
-    browser.switch_to.window(browser.window_handles[1])
-    print("Переключение между вкладками")
-    time.sleep(3)
-    # Проверка страницы Курсы валют (считываем заголовок)
-    assert_steps.assert_exchange_rates_title()
-    time.sleep(3)
-
-
-# Тест - проверка корректного поиска и выбора геопозиции
 @pytest.mark.smoke
+def test_search_on_the_main_page(browser):
+    main_page = MainPage(browser, "http://www.sberbank.ru")
+    main_page.open()
+    main_page.geoposition()
+    main_page.search_button_search("Кредит")
+    main_page.assert_check_search("Кредиты", MainPageLocators.SEARCH_INPUT_VAR)
+
+
+# Негативный тест выполнения поиска
 @pytest.mark.full_regress
-@pytest.mark.parametrize('text',
+def test_negative_search(browser):
+    main_page = MainPage(browser, "http://www.sberbank.ru")
+    main_page.open()
+    main_page.geoposition()
+    main_page.search_button_search(support_steps.generate_random_letter_strings(30))
+    main_page.assert_check_search("Искомая комбинация слов нигде не встречается", MainPageLocators.TAG_B)
+
+
+# Тест на проверку изменения цвета ссылок при hover
+@pytest.mark.full_regress
+@pytest.mark.smoke
+@pytest.mark.parametrize("element",
                          [
-                             "Санкт-Петербург",
-                             "Ростовская",
-                             "Республика Са",
-                             "Адыгея",
-                             "Сахалин",
-                             "кРасНоДар"
-                         ],
-                         ids=["City",
-                              "Region",
-                              "Part of region",
-                              "Region name",
-                              "Low letters",
-                              "Crazy letters"]
+                             MainPageLocators.EXCHANGE_RATES_BUTTON,
+                             MainPageLocators.OFFICE_BUTTON,
+                             MainPageLocators.ATMS_BUTTON,
+                             MainPageLocators.GEOPOSITION_BUTTON,
+                             MainPageLocators.CHANGE_LANGUAGE_BUTTON,
+                             MainPageLocators.SEARCH_BUTTON_HOVER,
+                             MainPageLocators.SBERONLINE_BUTTON
+                         ], ids=["exchange_rates_button", "office_button", "atms_button", "geoposition_button",
+                                 "change_language_button", "search_button", "sberonline_button"]
                          )
-def test_check_geoposition(browser, text):
-    main_page = MainPage(browser, main_url)
-    assert_steps = AssertSteps(browser)
-    # Открываем страницу
+def test_hover_elements(browser, element):
+    main_page = MainPage(browser, "http://www.sberbank.ru")
     main_page.open()
-    # Геометка (без неё сработает тест)
     main_page.geoposition()
-    # Нажать на геопозицию
-    main_page.click_on_geoposition_link()
-    # Заполняем регион(ы) текстом
-    main_page.fill_text_region_name_field(text)
-    # Нажимаем на регион(ы)
-    main_page.click_on_geoposition_link()
-    # Проверяем текст выбранный на странице (регионы), что он там есть
-    assert_steps.assert_region_name_in_geo_link(text)
-    time.sleep(3)
+    main_page.hover_elements(main_page.driver.find_element(*element))
 
-# Негативный тест - проверка некорректной геопозиции
+
+# Тест на проверку, что ссылки имеют href отличный от главной страницы
 @pytest.mark.full_regress
-def test_incorrect_geoposition(browser):
-    main_page = MainPage(browser, main_url)
-    assert_steps = AssertSteps(browser)
-    # Открываем страницу
+@pytest.mark.smoke
+@pytest.mark.parametrize("element",
+                         [
+                             MainPageLocators.EXCHANGE_RATES_BUTTON,
+                             MainPageLocators.OFFICE_BUTTON,
+                             MainPageLocators.ATMS_BUTTON,
+                             MainPageLocators.SBERONLINE_BUTTON
+                         ], ids=["exchange_rates_button",
+                                 "office_button",
+                                 "atms_button",
+                                 "sberonline_button"]
+                         )
+def test_open_new_tab(browser, element):
+    main_page = MainPage(browser, "http://www.sberbank.ru")
     main_page.open()
-    # Геометка (без неё не сработает тест)
     main_page.geoposition()
-    # Нажать на геопозицию
-    main_page.click_on_geoposition_link()
-    # Ввести рандомный (некорректный) регион
-    main_page.fill_incorrect_region_name_field()
-    # Проверка несуществующего элемента (региона)
-    assert_steps.should_not_be_success_region_button()
-    time.sleep(3)
+    main_url = main_page.get_link()
+    main_page.assert_correct_link(main_url, main_page.driver.find_element(*element))
 
 
-# Тест - проверка корректного количества элементов на странице
+# Тест на проверку корректности заголовков страниц
 @pytest.mark.full_regress
-def test_count_exchange_count(browser):
-    main_page = MainPage(browser, main_url)
-    assert_steps = AssertSteps(browser)
-    # Открываем страницу
+@pytest.mark.smoke
+def test_correct_open_new_tab(browser):
+    main_page = MainPage(browser, "http://www.sberbank.ru")
     main_page.open()
-    # Геометка (без неё не сработает тест)
     main_page.geoposition()
-    # Подсчет элементов на странице у курсов валют
-    main_page.exchange_rates_count()
-    # Проверка количества элементов у курсов валют
-    assert_steps.assert_exchange_rates_count()
-    time.sleep(3)
+    main_page.jump_to_authorization_page()
+    main_page.assert_correct_text("Правила безопасности", 1, BasePageLocators.TAG_H4)
+    main_page.assert_correct_text("Лучшие предложения", 0, BasePageLocators.TAG_FIRST_H2)
 
 
-# Тест - проверка изменения цвета ссылки
+# Тест подсчета ссылок на странице
 @pytest.mark.full_regress
-def test_color_links(browser):
-    main_page = MainPage(browser, main_url)
-    assert_steps = AssertSteps(browser)
-    # Открываем страницу
+@pytest.mark.smoke
+@pytest.mark.parametrize("element, count",
+                         [
+                             (MainPageLocators.OFFICE_LINK, 3),
+                             (MainPageLocators.ATMS_LINK, 3),
+                             (MainPageLocators.EXCHANGE_RATES_BUTTON, 4),
+                             (MainPageLocators.SBERONLINE_BUTTON, 2)
+                         ], ids=["ссылок Офисы - 3", "ссылок Банкоматы - 3", "ссылок Курсы валют - 4",
+                                 "ссылок СберБанк Онлайн - 2"]
+                         )
+def test_count(browser, element, count):
+    main_page = MainPage(browser, "http://www.sberbank.ru")
     main_page.open()
-    # Геометка (без неё не сработает тест)
     main_page.geoposition()
-
-    # Находим вкладку СберБанк Онлайн
-    main_page.sberonline_button()
-    # Проверяем, что цвет до и после наведения мыши не равны
-    assert_steps.assert_colors_not_equal_by_sber_online()
-    time.sleep(3)
-
-# Негативный тест - проверка некорректного названия заголовка Курсы валют
-@pytest.mark.full_regress
-def test_moving_menu_links_negative(browser):
-    try:
-        main_page = MainPage(browser, main_url)
-        assert_steps = AssertSteps(browser)
-        # Открываем страницу
-        main_page.open()
-        # Геометка (без неё не сработает тест)
-        main_page.geoposition()
-
-        # Нажать на вкладку Курсы валют
-        main_page.click_on_exchange_rates_link()
-        # Переключение между вкладками
-        browser.switch_to.window(browser.window_handles[1])
-        time.sleep(3)
-        # Заголовок на странице Курсы валют
-        main_page.first_page_title_exchange_rates()
-        # Проверка некорректного заголовка Курсы валют
-        assert_steps.assert_incorrect_exchange_rates_title()
-        time.sleep(3)
-    finally:
-        browser.quit()
-
-# Негативный тест - проверка некорректного региона
-@pytest.mark.full_regress
-def test_check_incorrect_geoposition(browser):
-    main_page = MainPage(browser, main_url)
-    # Открываем страницу
-    main_page.open()
-    # Геометка (без неё не сработает тест)
-    main_page.geoposition()
-
-    # Нажать на геопозицию
-    main_page.click_on_geoposition_link()
-    # Заполняем регион рандомным (некорректным) текстом
-    main_page.fill_incorrect_region_name_field()
-    time.sleep(3)
+    main_page.assert_number_links(main_page.driver.find_elements(*element), count)
